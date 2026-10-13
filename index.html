@@ -66,7 +66,30 @@
   </head>
   <body class="bg-[#FAF6F0] text-[#242124] antialiased selection:bg-[#591C32] selection:text-white">
     <div id="root"></div>
+
+    <!-- Development script (used by Vite dev server) -->
     <script type="module" src="./src/main.tsx"></script>
+
+    <!-- Automatic production fallback for static hosts (e.g. GitHub Pages root deployment) -->
+    <script>
+      (function() {
+        setTimeout(function() {
+          var root = document.getElementById('root');
+          if (root && root.children.length === 0) {
+            console.warn('Loading precompiled bundle for static hosting...');
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = './assets/index.css';
+            document.head.appendChild(link);
+
+            var script = document.createElement('script');
+            script.type = 'module';
+            script.src = './assets/index.js';
+            document.body.appendChild(script);
+          }
+        }, 200);
+      })();
+    </script>
   </body>
 </html>
 
