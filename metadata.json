@@ -1,0 +1,6 @@
+{
+  "name": "Cut The Crap Unisex Salon & Academy",
+  "description": "Premium unisex hair, skincare, bridal makeover and professional academy styling in Ambernath, Maharashtra. Book via WhatsApp or phone.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
