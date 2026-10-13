@@ -21,9 +21,11 @@ import { AdminDashboard } from './components/admin/AdminDashboard';
 export default function App() {
   const [salon, setSalon] = useState<SalonBusinessInfo>(() => {
     try {
-      const stored = localStorage.getItem('ctc_salon_data');
-      if (stored) {
-        return { ...initialSalonData, ...JSON.parse(stored) };
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const stored = window.localStorage.getItem('ctc_salon_data');
+        if (stored) {
+          return { ...initialSalonData, ...JSON.parse(stored) };
+        }
       }
     } catch {
       // Fallback
@@ -47,7 +49,13 @@ export default function App() {
 
   const handleUpdateSalon = (updated: SalonBusinessInfo) => {
     setSalon(updated);
-    localStorage.setItem('ctc_salon_data', JSON.stringify(updated));
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem('ctc_salon_data', JSON.stringify(updated));
+      }
+    } catch {
+      // Ignore
+    }
   };
 
   const handleRecordAppointment = (aptData: {

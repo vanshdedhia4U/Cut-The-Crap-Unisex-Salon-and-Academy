@@ -121,22 +121,29 @@ const STORAGE_KEY = 'ctc_salon_appointments_v1';
 
 export function getStoredAppointments(): Appointment[] {
   try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    if (data) {
-      return JSON.parse(data);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const data = window.localStorage.getItem(STORAGE_KEY);
+      if (data) {
+        return JSON.parse(data);
+      }
+      try {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(initialAppointments));
+      } catch {
+        // quota or security error
+      }
     }
   } catch (e) {
-    console.error('Failed to load appointments from localStorage', e);
+    // Storage access denied or blocked
   }
-  // Save initial if empty
-  saveAppointments(initialAppointments);
   return initialAppointments;
 }
 
 export function saveAppointments(appointments: Appointment[]): void {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
+    }
   } catch (e) {
-    console.error('Failed to save appointments to localStorage', e);
+    // Storage access denied or blocked
   }
 }
